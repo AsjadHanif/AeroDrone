@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useInView, useSpring } from 'framer-motion';
-import Image from 'next/image';
+import { motion, useScroll, useTransform, useInView, useSpring, AnimatePresence } from 'framer-motion';
+import { ColorSelectionPill, DroneColor } from '@/components/ui/ColorSelectionPill';
 
 interface StatProps {
   label: string;
@@ -10,9 +10,10 @@ interface StatProps {
   suffix: string;
   icon: string;
   delay: number;
+  isDark?: boolean;
 }
 
-const CountUp = ({ label, value, suffix, icon, delay }: StatProps) => {
+const CountUp = ({ label, value, suffix, icon, delay, isDark }: StatProps) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -23,7 +24,7 @@ const CountUp = ({ label, value, suffix, icon, delay }: StatProps) => {
       const end = value;
       const duration = 2000;
       const increment = end / (duration / 16);
-      
+
       const timer = setInterval(() => {
         start += increment;
         if (start >= end) {
@@ -46,13 +47,13 @@ const CountUp = ({ label, value, suffix, icon, delay }: StatProps) => {
       transition={{ duration: 0.8, delay }}
       className="flex flex-col items-center justify-center p-8 group cursor-default"
     >
-      <div className="w-16 h-16 rounded-full bg-[#0B1C10]/5 flex items-center justify-center mb-4 transition-all duration-500 group-hover:bg-[#D4F060] group-hover:shadow-[0_0_20px_rgba(212,240,96,0.4)]">
-        <i className={`fas ${icon} text-2xl text-[#0B1C10] transition-colors duration-500 group-hover:text-black`}></i>
+      <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all duration-500 group-hover:bg-[#D4F060] group-hover:shadow-[0_0_20px_rgba(212,240,96,0.4)] ${isDark ? 'bg-white/5' : 'bg-[#0B1C10]/5'}`}>
+        <i className={`fas ${icon} text-2xl transition-colors duration-500 group-hover:text-black ${isDark ? 'text-white' : 'text-[#0B1C10]'}`}></i>
       </div>
-      <div className="text-4xl md:text-5xl font-serif text-[#0B1C10] mb-2">
+      <div className={`text-4xl md:text-5xl font-serif mb-2 transition-colors duration-700 ${isDark ? 'text-white' : 'text-[#0B1C10]'}`}>
         {count}{suffix}
       </div>
-      <div className="text-xs uppercase tracking-[0.2em] font-sans text-[#0B1C10]/40 font-medium">
+      <div className={`text-xs uppercase tracking-[0.2em] font-sans font-medium transition-colors duration-700 ${isDark ? 'text-white/40' : 'text-[#0B1C10]/40'}`}>
         {label}
       </div>
     </motion.div>
@@ -94,6 +95,8 @@ const MagneticCard = ({ children, className = "" }: { children: React.ReactNode,
 
 export default function TechnicalMasterpiece() {
   const containerRef = useRef(null);
+  const [activeColor, setActiveColor] = useState<DroneColor>('forest');
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -101,142 +104,198 @@ export default function TechnicalMasterpiece() {
 
   const parallaxY = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
-  type CardData = { title: string, image: string, span: string, delay: number, isExtracted?: boolean, objectPosition?: string };
-  const cards: CardData[] = [
+  const droneAssetMap = {
+    body: {
+      forest: '/assets/macro/body-forest.png',
+      stealth: '/assets/macro/body-stealth.png',
+      arctic: '/assets/macro/body-arctic.png',
+    },
+    gimbal: {
+      forest: '/assets/macro/gimbal-forest.png',
+      stealth: '/assets/macro/gimbal-stealth.png',
+      arctic: '/assets/macro/gimbal-arctic.png',
+    },
+    motor: {
+      forest: '/assets/macro/motor-forest.png',
+      stealth: '/assets/macro/motor-stealth.png',
+      arctic: '/assets/macro/motor-arctic.png',
+    },
+    propeller: {
+      forest: '/assets/macro/prop-forest.png',
+      stealth: '/assets/macro/prop-stealth.png',
+      arctic: '/assets/macro/prop-arctic.png',
+    },
+    sensor: {
+      forest: '/assets/macro/sensor-forest.png',
+      stealth: '/assets/macro/sensor-stealth.png',
+      arctic: '/assets/macro/sensor-arctic.png',
+    },
+  };
+
+  const cards = [
     {
-      title: "Active Cooling Rotor",
-      image: "/assets/macro_rotor.png",
+      id: "gimbal",
+      title: "Gimbal Lens",
       span: "md:col-span-1",
       delay: 0.2
     },
     {
-      title: "8K Optic Lens",
-      image: "/assets/macro_lens.png",
+      id: "motor",
+      title: "Motor Unit",
       span: "md:col-span-1",
       delay: 0.3
     },
     {
-      title: "Solid-State Energy",
-      image: "/assets/macro_battery.png",
+      id: "propeller",
+      title: "Propeller Blade",
       span: "md:col-span-1",
       delay: 0.4
     },
     {
-      title: "Carbon Weave Chassis",
-      image: "/assets/macro_carbon.png",
+      id: "sensor",
+      title: "Emerald Sensor",
       span: "md:col-span-1",
       delay: 0.5
     }
-  ];
+  ] as const;
+
+  // Derive styles based on selected color
+  const isDark = activeColor === 'stealth';
+  const sectionBgColor = isDark ? '#111111' : activeColor === 'arctic' ? '#FAFAFA' : '#F5F5F3';
+  const textColorClass = isDark ? 'text-white' : 'text-[#0B1C10]';
+  const subtextColorClass = isDark ? 'text-white/40' : 'text-[#0B1C10]/40';
+  const borderColorClass = isDark ? 'border-white/10' : 'border-[#0B1C10]/10';
+
+  // The Aesthetic: Glassmorphism, subtle white-transparent background (#F5F5F3/90) and thin borders (border-[#0B1C10]/10)
+  const cardBgClass = isDark ? 'bg-[#1A1A1A]/80' : 'bg-[#F5F5F3]/90';
+  const hoverBgClass = isDark ? 'bg-white/5' : 'bg-[#0B1C10]/5';
 
   return (
-    <section ref={containerRef} className="w-full py-32 px-6 md:px-24 bg-[#F5F5F3] relative z-20 scroll-mt-[50vh]">
-      <div className="max-w-[1400px] mx-auto">
-        <motion.div 
+    <section
+      ref={containerRef}
+      className="w-full py-32 px-6 md:px-24 relative z-20 scroll-mt-[50vh] transition-colors duration-1000"
+      style={{ backgroundColor: sectionBgColor }}
+    >
+      <div className="max-w-[1400px] mx-auto relative">
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="mb-16 md:mb-24"
         >
-          <span className="text-[#0B1C10]/40 font-sans uppercase tracking-[0.3em] text-[10px] mb-4 block">Engineered Excellence</span>
-          <h2 className="text-5xl md:text-7xl font-serif text-[#0B1C10] leading-tight max-w-3xl">
+          <span className={`${subtextColorClass} font-sans uppercase tracking-[0.3em] text-[10px] mb-4 block transition-colors duration-1000`}>
+            Engineered Excellence
+          </span>
+          <h2 className={`text-5xl md:text-7xl font-serif ${textColorClass} leading-tight max-w-3xl transition-colors duration-1000`}>
             A Masterpiece of <br />
             <span className="italic">Aerial Engineering.</span>
           </h2>
         </motion.div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-24 relative pb-24">
           {/* Hero Card */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="md:col-span-2 md:row-span-2 relative group rounded-[24px] overflow-hidden min-h-[400px] md:min-h-full border border-[#0B1C10]/10 bg-[#F5F5F3] glass-card"
+            className={`md:col-span-2 md:row-span-2 relative group rounded-[24px] overflow-hidden min-h-[400px] md:min-h-[600px] border ${borderColorClass} ${cardBgClass} backdrop-blur-xl transition-colors duration-1000`}
           >
-            <motion.div 
-              style={{ y: parallaxY }} 
+            <motion.div
+              style={{ y: parallaxY }}
               className="absolute inset-0 scale-110"
             >
-              <Image 
-                src="/assets/ezgif-frame-188.png" 
-                alt="AeroDrone Hero" 
-                fill 
-                className="object-cover opacity-90 group-hover:scale-105 transition-transform duration-1000"
-              />
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={`hero-${activeColor}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.6 }}
+                  src={droneAssetMap.body[activeColor]}
+                  alt="AeroBody Core"
+                  className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-1000"
+                />
+              </AnimatePresence>
             </motion.div>
-            <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/20 to-transparent">
-              <h3 className="text-2xl font-serif text-white mb-2">Integrated Core v2</h3>
-              <p className="text-white/60 font-sans text-xs tracking-wider uppercase">Structural Integrity & Balance</p>
+            <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/60 to-transparent">
+              <h3 className="text-2xl font-serif text-white mb-2">AeroBody Core</h3>
+              <p className="text-white/80 font-sans text-xs tracking-wider uppercase">Structural Integrity & Balance</p>
             </div>
           </motion.div>
 
           {/* Component Cards */}
           {cards.map((card, idx) => (
             <motion.div
-              key={idx}
+              key={card.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: card.delay }}
               className={`${card.span} flex`}
             >
-              <MagneticCard className="flex-1 rounded-[24px] border border-[#0B1C10]/10 bg-[#F5F5F3]/50 backdrop-blur-md overflow-hidden group cursor-pointer">
-                <div className="aspect-square relative overflow-hidden">
-                  <Image 
-                    src={card.image} 
-                    alt={card.title} 
-                    fill 
-                    style={card.isExtracted ? { objectPosition: card.objectPosition } : {}}
-                    className={`object-cover transition-transform duration-700 ${card.isExtracted ? "scale-[2.0] group-hover:scale-[2.2]" : "group-hover:scale-110"} grayscale-[0.2] group-hover:grayscale-0`}
-                  />
-                  <div className="absolute inset-0 bg-[#0B1C10]/5 group-hover:bg-transparent transition-colors duration-500" />
+              <MagneticCard className={`flex-1 rounded-[24px] border ${borderColorClass} ${cardBgClass} backdrop-blur-xl overflow-hidden group cursor-pointer transition-colors duration-1000`}>
+                <div className="aspect-square relative overflow-hidden bg-black/5">
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={`${card.id}-${activeColor}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.6 }}
+                      src={droneAssetMap[card.id][activeColor]}
+                      alt={card.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.2] group-hover:grayscale-0"
+                    />
+                  </AnimatePresence>
+                  <div className={`absolute inset-0 ${hoverBgClass} group-hover:bg-transparent transition-colors duration-500`} />
                 </div>
-                <div className="p-6">
-                  <h4 className="font-serif text-lg text-[#0B1C10]">{card.title}</h4>
-                  <div className="w-0 group-hover:w-full h-[1px] bg-[#0B1C10]/20 mt-2 transition-all duration-500" />
+                <div className="p-6 relative z-10">
+                  <h4 className={`font-serif text-lg ${textColorClass} transition-colors duration-1000`}>{card.title}</h4>
+                  <div className={`w-0 group-hover:w-full h-[1px] bg-current opacity-20 mt-2 transition-all duration-500 ${textColorClass}`} />
                 </div>
               </MagneticCard>
             </motion.div>
           ))}
+
+          {/* Color Selection Pill */}
+          <ColorSelectionPill
+            selectedColor={activeColor}
+            onSelect={setActiveColor}
+          />
         </div>
 
         {/* Live Performance Counters */}
-        <div className="border-t border-[#0B1C10]/10 pt-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#0B1C10]/10">
-            <CountUp 
-              label="Flight Time" 
-              value={45} 
-              suffix=" MIN" 
-              icon="fa-wind" 
-              delay={0.2} 
+        <div className={`border-t ${borderColorClass} pt-12 transition-colors duration-1000`}>
+          <div className={`grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x ${borderColorClass} transition-colors duration-1000`}>
+            <CountUp
+              label="Flight Time"
+              value={45}
+              suffix=" MIN"
+              icon="fa-wind"
+              delay={0.2}
+              isDark={isDark}
             />
-            <CountUp 
-              label="Transmission" 
-              value={12} 
-              suffix=" KM" 
-              icon="fa-satellite-dish" 
-              delay={0.4} 
+            <CountUp
+              label="Transmission"
+              value={12}
+              suffix=" KM"
+              icon="fa-satellite-dish"
+              delay={0.4}
+              isDark={isDark}
             />
-            <CountUp 
-              label="Recording" 
-              value={8} 
-              suffix="K 60FPS" 
-              icon="fa-video" 
-              delay={0.6} 
+            <CountUp
+              label="Recording"
+              value={8}
+              suffix="K 60FPS"
+              icon="fa-video"
+              delay={0.6}
+              isDark={isDark}
             />
           </div>
         </div>
       </div>
-
-      <style jsx global>{`
-        .glass-card {
-          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-        }
-      `}</style>
     </section>
   );
 }

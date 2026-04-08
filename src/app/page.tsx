@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import DroneManifest from '@/components/sections/DroneManifest';
 import TechnicalMasterpiece from '@/components/sections/TechnicalMasterpiece';
+import GimbalView from '@/components/sections/GimbalView';
 import Preloader from '@/components/ui/Preloader';
 import ScrollIndicator from '@/components/ui/ScrollIndicator';
 
@@ -35,6 +36,9 @@ export default function Home() {
 
       {/* Technical Deep Dive */}
       <TechnicalMasterpiece />
+
+      {/* Gimbal View Experience */}
+      <GimbalView />
 
       {/* Footer / End Section */}
       <section className="h-screen w-full flex items-center justify-center bg-primary text-background z-20">
