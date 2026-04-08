@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import DroneManifest from '@/components/sections/DroneManifest';
 import TechnicalMasterpiece from '@/components/sections/TechnicalMasterpiece';
+import TechnicalBlueprint from '@/components/sections/TechnicalBlueprint';
 import GimbalView from '@/components/sections/GimbalView';
 import Preloader from '@/components/ui/Preloader';
 import ScrollIndicator from '@/components/ui/ScrollIndicator';
@@ -36,6 +37,9 @@ export default function Home() {
 
       {/* Technical Deep Dive */}
       <TechnicalMasterpiece />
+
+      {/* Technical Blueprint */}
+      <TechnicalBlueprint />
 
       {/* Gimbal View Experience */}
       <GimbalView />
