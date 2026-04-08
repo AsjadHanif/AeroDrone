@@ -1,14 +1,42 @@
+'use client';
+
+import { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import DroneManifest from '@/components/sections/DroneManifest';
+import TechnicalMasterpiece from '@/components/sections/TechnicalMasterpiece';
+import Preloader from '@/components/ui/Preloader';
+
 export default function Home() {
+  const [isPreloading, setIsPreloading] = useState(true);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex pt-32">
-        <h1 className="text-4xl md:text-6xl font-serif text-primary">
-          Welcome to AeroDrone.
-        </h1>
-      </div>
-      
-      {/* Spacer to demonstrate scroll */}
-      <div className="h-[200vh] w-full" />
+    <main className="flex flex-col items-center justify-between">
+      <AnimatePresence>
+        {isPreloading && <Preloader onComplete={() => setIsPreloading(false)} />}
+      </AnimatePresence>
+
+      {/* Hero Section Placeholder */}
+      <section className="h-screen w-full flex items-center justify-center bg-transparent z-10 px-24">
+        <div className="w-full max-w-5xl flex flex-col items-center text-center font-serif text-sm lg:flex pt-32">
+          <h1 className="text-6xl md:text-8xl font-serif text-primary leading-tight">
+            AERODRONE
+          </h1>
+          <p className="mt-6 text-xl text-primary/60 font-mono tracking-widest uppercase">
+            Define New Horizons
+          </p>
+        </div>
+      </section>
+
+      {/* Drone Scroll Experience */}
+      <DroneManifest />
+
+      {/* Technical Deep Dive */}
+      <TechnicalMasterpiece />
+
+      {/* Footer / End Section */}
+      <section className="h-screen w-full flex items-center justify-center bg-primary text-background z-20">
+        <h2 className="text-4xl font-serif">READY FOR TAKEOFF.</h2>
+      </section>
     </main>
   );
 }
