@@ -40,11 +40,11 @@ export default function GimbalView() {
     >
       {/* Background Image Parallax */}
       <motion.div
-        className="absolute inset-0 w-full h-full scale-110 pointer-events-none"
+        className="absolute -inset-[100px] pointer-events-none"
         style={{ x: translateX, y: translateY }}
       >
         <div
-          className="w-[110%] h-[110%] bg-cover bg-center"
+          className="w-full h-full bg-cover bg-center"
           style={{ backgroundImage: 'url(/assets/flight-landscape.jpeg)' }}
         />
       </motion.div>
