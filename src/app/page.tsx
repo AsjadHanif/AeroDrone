@@ -8,6 +8,7 @@ import TechnicalBlueprint from '@/components/sections/TechnicalBlueprint';
 import GimbalView from '@/components/sections/GimbalView';
 import PerformanceDashboard from '@/components/sections/PerformanceDashboard';
 import CinematicGallery from '@/components/sections/CinematicGallery';
+import CommandCenterFooter from '@/components/sections/CommandCenterFooter';
 import Preloader from '@/components/ui/Preloader';
 import ScrollIndicator from '@/components/ui/ScrollIndicator';
 
@@ -53,9 +54,7 @@ export default function Home() {
       <CinematicGallery />
 
       {/* Footer / End Section */}
-      <section className="h-screen w-full flex items-center justify-center bg-primary text-background z-20">
-        <h2 className="text-4xl font-serif">READY FOR TAKEOFF.</h2>
-      </section>
+      <CommandCenterFooter />
     </main>
   );
 }
