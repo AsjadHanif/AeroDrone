@@ -37,9 +37,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         // We use window.Image to preemptively cache
       const img = new Image();
       const frameNum = i.toString().padStart(3, '0');
-      img.src = `${IMAGE_BASE_PATH}${frameNum}${IMAGE_EXT}`;
       img.onload = incrementProgress;
       img.onerror = incrementProgress; // Proceed even if an image fails to load
+      img.src = `${IMAGE_BASE_PATH}${frameNum}${IMAGE_EXT}`;
     }
 
     return () => {

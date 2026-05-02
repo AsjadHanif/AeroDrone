@@ -79,8 +79,6 @@ export default function DroneManifest() {
         const img = new Image();
         const frameNum = i.toString().padStart(3, '0');
         const path = `${IMAGE_BASE_PATH}${frameNum}${IMAGE_EXT}`;
-        img.src = path;
-
         img.onload = () => {
           loadedCount++;
           if (loadedCount === TOTAL_FRAMES) {
@@ -92,8 +90,15 @@ export default function DroneManifest() {
 
         img.onerror = () => {
           console.error(`[DroneManifest] Failed to load image at: ${path}`);
+          loadedCount++;
+          if (loadedCount === TOTAL_FRAMES) {
+            console.log('[DroneManifest] Preload finished with some errors.');
+            setImages(loadedImages);
+            setIsLoaded(true);
+          }
         };
 
+        img.src = path;
         loadedImages.push(img);
       }
     };
@@ -109,13 +114,14 @@ export default function DroneManifest() {
     const context = canvas.getContext('2d');
     if (!context) return;
 
+    let animationId: number;
+
     const render = () => {
       const index = Math.floor(frameIndex.get());
       const image = images[index];
 
       if (image && context) {
         try {
-          // Handle High-DPI displays
           const dpr = window.devicePixelRatio || 1;
           const width = window.innerWidth;
           const height = window.innerHeight;
@@ -130,7 +136,6 @@ export default function DroneManifest() {
 
           context.clearRect(0, 0, width, height);
 
-          // Object-fit: contain logic
           const canvasRatio = width / height;
           const imageRatio = image.width / image.height;
           let drawWidth, drawHeight;
@@ -143,12 +148,11 @@ export default function DroneManifest() {
             drawWidth = height * imageRatio;
           }
 
-          x = (width - drawWidth) / 2;
-          y = (height - drawHeight) / 2;
+          const x = (width - drawWidth) / 2;
+          const y = (height - drawHeight) / 2;
 
           context.drawImage(image, x, y, drawWidth, drawHeight);
 
-          // Update hotspot container bounds to perfectly match the drawn image
           if (hotspotsContainerRef.current) {
             hotspotsContainerRef.current.style.left = `${x}px`;
             hotspotsContainerRef.current.style.top = `${y}px`;
@@ -156,14 +160,14 @@ export default function DroneManifest() {
             hotspotsContainerRef.current.style.height = `${drawHeight}px`;
           }
         } catch (error) {
-          console.error('[DroneManifest] Error drawing to canvas:', error);
+          // Silent catch to keep loop running
         }
       }
 
-      requestAnimationFrame(render);
+      animationId = requestAnimationFrame(render);
     };
 
-    const animationId = requestAnimationFrame(render);
+    render();
     return () => cancelAnimationFrame(animationId);
   }, [images, frameIndex]);
 
@@ -182,7 +186,7 @@ export default function DroneManifest() {
           initial={{ opacity: 0 }}
           animate={{ opacity: isLoaded ? 1 : 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="z-0 pointer-events-none"
+          className="absolute inset-0 z-0 pointer-events-none"
         />
 
         {/* Hotspots Overlay */}
