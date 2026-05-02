@@ -193,14 +193,14 @@ export default function TechnicalMasterpiece() {
         </motion.div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-24 relative pb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24 relative pb-24">
           {/* Hero Card */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className={`md:col-span-2 md:row-span-2 relative group rounded-[24px] overflow-hidden min-h-[400px] md:min-h-[600px] border ${borderColorClass} ${cardBgClass} backdrop-blur-xl transition-colors duration-1000`}
+            className={`md:col-span-2 md:row-span-2 lg:col-span-2 lg:row-span-2 relative group rounded-[24px] overflow-hidden min-h-[400px] md:min-h-[600px] border ${borderColorClass} ${cardBgClass} backdrop-blur-xl transition-colors duration-1000`}
           >
             <motion.div
               style={{ y: parallaxY }}
@@ -260,10 +260,12 @@ export default function TechnicalMasterpiece() {
           ))}
 
           {/* Color Selection Pill */}
-          <ColorSelectionPill
-            selectedColor={activeColor}
-            onSelect={setActiveColor}
-          />
+          <div className="md:contents">
+            <ColorSelectionPill
+              selectedColor={activeColor}
+              onSelect={setActiveColor}
+            />
+          </div>
         </div>
 
         {/* Live Performance Counters */}

@@ -124,7 +124,7 @@ export default function DroneManifest() {
         try {
           const dpr = window.devicePixelRatio || 1;
           const width = window.innerWidth;
-          const height = window.innerHeight;
+          const height = window.innerWidth < 768 ? window.innerHeight * 0.5 : window.innerHeight;
 
           if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
             canvas.width = width * dpr;
@@ -177,7 +177,7 @@ export default function DroneManifest() {
       className="relative h-[500vh] w-full bg-transparent"
       id="drone-reveal"
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+      <div className="sticky top-0 h-[50vh] md:h-screen w-full overflow-hidden flex items-center justify-center">
         {/* Aesthetic Background Color defined in Phase 1 */}
         {/* The background is already #F5F5F3 via globals.css */}
 
@@ -210,10 +210,10 @@ export default function DroneManifest() {
                   <div className="absolute w-10 h-10 rounded-full bg-[#D4F060] animate-ping opacity-90"></div>
                 </div>
 
-                <div className="absolute top-8 left-1/2 -translate-x-1/2 w-64 p-4 rounded-xl backdrop-blur-md bg-black/60 border border-white/20 shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-[100]">
-                  <i className={`fas ${spot.icon} text-[#D4F060] mb-2 text-xl`}></i>
-                  <h4 className="text-white font-serif text-lg mb-1">{spot.title}</h4>
-                  <p className="text-white/70 font-sans text-xs leading-relaxed">{spot.description}</p>
+                <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 sm:w-64 p-3 sm:p-4 rounded-xl backdrop-blur-md bg-black/60 border border-white/20 shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-[100]">
+                  <i className={`fas ${spot.icon} text-[#D4F060] mb-2 text-lg sm:text-xl`}></i>
+                  <h4 className="text-white font-serif text-base sm:text-lg mb-1">{spot.title}</h4>
+                  <p className="text-white/70 font-sans text-[10px] sm:text-xs leading-relaxed">{spot.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -221,21 +221,21 @@ export default function DroneManifest() {
         </div>
 
         {/* Optional: Add some floating UI elements or text that sync with scroll */}
-        <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center text-primary">
+        <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center text-primary px-6">
           <motion.div
             style={{ opacity: useTransform(scrollYProgress, [0, 0.1, 0.2], [0, 1, 0]) }}
             className="text-center"
           >
-            <h2 className="text-5xl font-serif mb-4 uppercase tracking-widest">Engineering Excellence</h2>
-            <p className="text-xl opacity-60">Precision. Evolution. Flight.</p>
+            <h2 className="text-3xl md:text-5xl font-serif mb-4 uppercase tracking-widest">Engineering Excellence</h2>
+            <p className="text-lg md:text-xl opacity-60">Precision. Evolution. Flight.</p>
           </motion.div>
 
           <motion.div
             style={{ opacity: useTransform(scrollYProgress, [0.4, 0.5, 0.6], [0, 1, 0]) }}
             className="text-center"
           >
-            <h2 className="text-5xl font-serif mb-4 uppercase tracking-widest">Modular Core</h2>
-            <p className="text-xl opacity-60">Advanced carbon fiber composite structure.</p>
+            <h2 className="text-3xl md:text-5xl font-serif mb-4 uppercase tracking-widest">Modular Core</h2>
+            <p className="text-lg md:text-xl opacity-60">Advanced carbon fiber composite structure.</p>
           </motion.div>
         </div>
       </div>

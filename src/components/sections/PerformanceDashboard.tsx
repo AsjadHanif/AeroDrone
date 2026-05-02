@@ -172,20 +172,20 @@ const PerformanceDashboard = () => {
       <TerminalBackground />
       
       <motion.div 
-        className="z-10 text-center mb-32"
+        className="z-10 text-center mb-16 md:mb-32"
         initial={{ opacity: 0, y: 30 }}
         animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 1, ease: "easeOut" }}
       >
-        <h2 className="text-5xl md:text-7xl font-serif text-white tracking-wide">
+        <h2 className="text-3xl md:text-7xl font-serif text-white tracking-wide">
           PEAK <span className="text-[#D4F060] italic">PERFORMANCE</span>
         </h2>
-        <p className="mt-6 text-[#D4F060]/70 font-mono uppercase tracking-[0.3em] text-sm md:text-base">
+        <p className="mt-4 md:mt-6 text-[#D4F060]/70 font-mono uppercase tracking-[0.3em] text-xs md:text-base px-6">
           Class-leading telemetry & endurance
         </p>
       </motion.div>
 
-      <div className="w-full max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-40 md:gap-12 place-items-center relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-24 lg:gap-12 place-items-center relative z-10">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}

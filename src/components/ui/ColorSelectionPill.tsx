@@ -16,12 +16,12 @@ export const ColorSelectionPill: React.FC<ColorSelectionPillProps> = ({ selected
   ];
 
   return (
-    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 p-2 rounded-full cursor-pointer pointer-events-auto backdrop-blur-md bg-white/10 dark:bg-black/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/20 transition-all duration-500">
+    <div className="absolute -bottom-8 md:bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 md:gap-2 p-1.5 md:p-2 rounded-full cursor-pointer pointer-events-auto backdrop-blur-md bg-white/10 dark:bg-black/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/20 transition-all duration-500 scale-90 md:scale-100">
       {colors.map((c) => (
         <div
           key={c.id}
           onClick={() => onSelect(c.id)}
-          className="relative px-4 py-2 rounded-full transition-all duration-300 flex items-center gap-2"
+          className="relative px-2 py-2 md:px-4 md:py-2 rounded-full transition-all duration-300 flex items-center gap-2"
         >
           {selectedColor === c.id && (
             <motion.div
@@ -34,7 +34,7 @@ export const ColorSelectionPill: React.FC<ColorSelectionPillProps> = ({ selected
             className="w-3 h-3 rounded-full border border-black/10 z-10 shadow-sm transition-transform duration-300"
             style={{ backgroundColor: c.colorCode, transform: selectedColor === c.id ? 'scale(1.2)' : 'scale(1)' }}
           />
-          <span className={`relative z-10 text-sm font-sans tracking-wide transition-colors duration-300 ${selectedColor === c.id
+          <span className={`relative z-10 text-sm font-sans tracking-wide transition-colors duration-300 hidden md:inline ${selectedColor === c.id
             ? 'text-black font-semibold'
             : 'text-[#0B1C10] dark:text-white/80 hover:text-black dark:hover:text-white'
             }`}>

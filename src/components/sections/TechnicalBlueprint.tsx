@@ -44,38 +44,38 @@ export default function TechnicalBlueprint() {
       className="w-full h-[400vh] bg-[#0B1C10] border-t border-white/5 relative z-20"
     >
       <div className="sticky top-0 h-screen w-full flex items-center justify-center px-6 md:px-24 overflow-hidden">
-        <div className="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative">
+        <div className="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center relative">
 
           {/* Left Side: Categories */}
           <motion.div
             style={{ opacity: textOpacity }}
-            className="flex flex-col gap-8 z-10 relative"
+            className="flex flex-col gap-4 md:gap-8 z-10 relative"
           >
             <div className="flex flex-col">
-              <span className="text-[#D4F060] font-sans uppercase tracking-[0.3em] text-xs mb-4 block">
+              <span className="text-[#D4F060] font-sans uppercase tracking-[0.3em] text-[10px] md:text-xs mb-2 md:mb-4 block">
                 Deconstructed
               </span>
-              <h2 className="text-5xl md:text-7xl font-serif text-white mb-12 leading-tight">
+              <h2 className="text-3xl sm:text-5xl md:text-7xl font-serif text-white mb-6 md:mb-12 leading-tight">
                 Technical <br /> <span className="italic opacity-70 border-b border-[#D4F060]/30 pb-2">Blueprint.</span>
               </h2>
             </div>
 
-            <div className="flex flex-col gap-2 border-l border-white/5 pl-8 mt-4">
+            <div className="flex flex-col gap-1 md:gap-2 border-l border-white/5 pl-4 md:pl-8 mt-2 md:mt-4">
               {categories.map((cat, idx) => (
                 <div
                   key={cat.id}
                   onMouseEnter={() => setActiveCategory(cat.id as Category)}
                   onMouseLeave={() => setActiveCategory(null)}
-                  className="group cursor-pointer py-6 relative"
+                  className="group cursor-pointer py-3 md:py-6 relative"
                 >
                   {/* Active Indicator Line */}
-                  <div className={`absolute left-[-33px] top-1/2 -translate-y-1/2 w-[2px] bg-[#D4F060] transition-all duration-300 ${activeCategory === cat.id ? 'h-full' : 'h-0'}`} />
+                  <div className={`absolute left-[-17px] md:left-[-33px] top-1/2 -translate-y-1/2 w-[2px] bg-[#D4F060] transition-all duration-300 ${activeCategory === cat.id ? 'h-full' : 'h-0'}`} />
 
-                  <div className="flex items-center gap-6">
-                    <span className={`text-sm font-mono transition-colors duration-300 ${activeCategory === cat.id ? 'text-[#D4F060]' : 'text-white/30'}`}>
+                  <div className="flex items-center gap-4 md:gap-6">
+                    <span className={`text-xs md:text-sm font-mono transition-colors duration-300 ${activeCategory === cat.id ? 'text-[#D4F060]' : 'text-white/30'}`}>
                       0{idx + 1}
                     </span>
-                    <h3 className={`text-3xl font-serif transition-colors duration-300 ${activeCategory === cat.id ? 'text-white' : 'text-white/40 group-hover:text-white/70'}`}>
+                    <h3 className={`text-xl md:text-3xl font-serif transition-colors duration-300 ${activeCategory === cat.id ? 'text-white' : 'text-white/40 group-hover:text-white/70'}`}>
                       {cat.label}
                     </h3>
                   </div>
@@ -85,7 +85,7 @@ export default function TechnicalBlueprint() {
           </motion.div>
 
           {/* Right Side: Wireframe */}
-          <div className="relative w-full aspect-square max-w-[800px] mx-auto flex items-center justify-center">
+          <div className="relative w-full aspect-square max-w-[300px] sm:max-w-[500px] md:max-w-[800px] mx-auto flex items-center justify-center">
 
             {/* Data block overlays (slides in from right when active) */}
             {categories.map((cat) => (
@@ -98,15 +98,15 @@ export default function TechnicalBlueprint() {
                   scale: activeCategory === cat.id ? 1 : 0.95
                 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
-                className={`absolute pointer-events-none p-4 backdrop-blur-xl bg-[#0B1C10]/80 border border-[#D4F060]/40 rounded min-w-[220px] shadow-[0_0_30px_rgba(212,240,96,0.15)] z-30 ${cat.id === 'imaging' ? 'top-[0%] left-1/2 -translate-x-1/2' :
+                className={`absolute pointer-events-none p-3 md:p-4 backdrop-blur-xl bg-[#0B1C10]/80 border border-[#D4F060]/40 rounded min-w-[160px] md:min-w-[220px] shadow-[0_0_30px_rgba(212,240,96,0.15)] z-30 ${cat.id === 'imaging' ? 'top-[0%] left-1/2 -translate-x-1/2' :
                     cat.id === 'propulsion' ? 'top-[10%] right-[0%]' :
                       cat.id === 'intelligence' ? 'top-[40%] left-[5%]' :
                         'bottom-[10%] left-1/2 -translate-x-1/2'
                   }`}
               >
-                <div className="text-[#D4F060] font-mono text-[10px] mb-2 uppercase tracking-widest">{cat.label} {"//"} DATA</div>
-                <div className="text-white font-serif text-xl mb-1">{cat.title}</div>
-                <div className="text-white/50 text-xs font-sans tracking-wide uppercase">{cat.desc}</div>
+                <div className="text-[#D4F060] font-mono text-[8px] md:text-[10px] mb-1 md:mb-2 uppercase tracking-widest">{cat.label} {"//"} DATA</div>
+                <div className="text-white font-serif text-lg md:text-xl mb-1">{cat.title}</div>
+                <div className="text-white/50 text-[9px] md:text-xs font-sans tracking-wide uppercase">{cat.desc}</div>
 
                 {/* Connector Line (visual flair) */}
                 <div className={`absolute bg-[#D4F060]/60 ${cat.id === 'imaging' ? 'w-[1px] h-8 -bottom-8 left-1/2' :

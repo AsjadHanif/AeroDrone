@@ -70,10 +70,10 @@ export default function CinematicGallery() {
         </p>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-[1000px] md:h-[600px]">
+      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[600px] aspect-[1/2] md:aspect-auto">
         
         {/* Feature Tile - 2x2 */}
-        <Tile className="md:col-span-2 md:row-span-2" isFeature>
+        <Tile className="col-span-1 row-span-1 md:col-span-2 md:row-span-2 min-h-[300px]" isFeature>
           <video 
             src="/assets/videos/drone-feed-1.mp4" 
             autoPlay 
@@ -85,7 +85,7 @@ export default function CinematicGallery() {
         </Tile>
 
         {/* Small 1 */}
-        <Tile className="md:col-span-1 md:row-span-1">
+        <Tile className="col-span-1 row-span-1 min-h-[200px]">
           <video 
             src="/assets/videos/drone-feed-2.mp4" 
             autoPlay 
@@ -97,7 +97,7 @@ export default function CinematicGallery() {
         </Tile>
 
         {/* Small 2 */}
-        <Tile className="md:col-span-1 md:row-span-1">
+        <Tile className="col-span-1 row-span-1 min-h-[200px]">
           <video 
             src="/assets/videos/drone-feed-3.mp4" 
             autoPlay 
@@ -109,7 +109,7 @@ export default function CinematicGallery() {
         </Tile>
 
         {/* Small 3 */}
-        <Tile className="md:col-span-2 md:row-span-1">
+        <Tile className="col-span-1 row-span-1 md:col-span-2 md:row-span-1 min-h-[200px]">
           <video 
             src="/assets/videos/drone-feed-4.mp4" 
             autoPlay 
