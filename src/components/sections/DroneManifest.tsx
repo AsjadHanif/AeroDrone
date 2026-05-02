@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useScroll, useTransform, motion, useSpring, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 
 const hotspots = [
@@ -133,7 +133,7 @@ export default function DroneManifest() {
           // Object-fit: contain logic
           const canvasRatio = width / height;
           const imageRatio = image.width / image.height;
-          let drawWidth, drawHeight, x, y;
+          let drawWidth, drawHeight;
 
           if (imageRatio > canvasRatio) {
             drawWidth = width;
@@ -191,9 +191,9 @@ export default function DroneManifest() {
           className="absolute z-20 pointer-events-none"
         >
           <AnimatePresence>
-            {hotspotsVisible && hotspots.map((spot, idx) => (
+            {hotspotsVisible && hotspots.map((spot) => (
               <motion.div
-                key={idx}
+                key={spot.title}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}

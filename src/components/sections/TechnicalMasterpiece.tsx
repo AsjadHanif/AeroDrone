@@ -226,7 +226,7 @@ export default function TechnicalMasterpiece() {
           </motion.div>
 
           {/* Component Cards */}
-          {cards.map((card, idx) => (
+          {cards.map((card) => (
             <motion.div
               key={card.id}
               initial={{ opacity: 0, y: 30 }}

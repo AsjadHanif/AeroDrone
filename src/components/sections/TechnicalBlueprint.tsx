@@ -104,7 +104,7 @@ export default function TechnicalBlueprint() {
                         'bottom-[10%] left-1/2 -translate-x-1/2'
                   }`}
               >
-                <div className="text-[#D4F060] font-mono text-[10px] mb-2 uppercase tracking-widest">{cat.label} // DATA</div>
+                <div className="text-[#D4F060] font-mono text-[10px] mb-2 uppercase tracking-widest">{cat.label} {"//"} DATA</div>
                 <div className="text-white font-serif text-xl mb-1">{cat.title}</div>
                 <div className="text-white/50 text-xs font-sans tracking-wide uppercase">{cat.desc}</div>
 

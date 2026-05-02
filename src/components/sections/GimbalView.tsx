@@ -67,7 +67,7 @@ export default function GimbalView() {
               <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
               <span>REC</span>
             </div>
-            <span>STB // ACTIVE</span>
+            <span>STB {"//"} ACTIVE</span>
           </div>
           <div className="text-right flex flex-col gap-2">
             <span className="aberration-text text-[#0B1C10] font-bold">ALT: 120M</span>
@@ -79,7 +79,7 @@ export default function GimbalView() {
         <div className="flex justify-between items-end pb-8 pt-4">
           <div>
             <span>F/2.8</span>
-            <span className="mx-2">///</span>
+            <span className="mx-2">{"///"}</span>
             <span>ISO 100</span>
           </div>
           <div className="flex items-center gap-4">
